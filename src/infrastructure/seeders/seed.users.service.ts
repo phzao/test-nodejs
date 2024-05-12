@@ -1,9 +1,9 @@
-import { UserService } from '@application/users/user.services';
 import { Injectable } from '@nestjs/common';
+import { UsersService } from '@application/users/users.services';
 
 @Injectable()
 export class SeedUserService {
-  constructor(private readonly usersService: UserService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   async seedUsers() {
     const users = [

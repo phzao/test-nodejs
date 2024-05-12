@@ -1,7 +1,7 @@
 import { UserEntity } from '@domain/users/user.entity';
 import { UserDto } from '../dto/user.dto';
 
-export interface IUserEntityService {
+export interface IUsersService {
   findAll(): Promise<UserEntity[]>;
   findById(id: string): Promise<UserEntity | null>;
   create(user: UserDto): Promise<UserEntity>;

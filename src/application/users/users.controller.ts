@@ -10,16 +10,16 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@infrastructure/auth/jwt-auth.guard';
-import { UserService } from './user.services';
 import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDocument } from './entities/user.entity';
 import { UserResponseDto } from './dto/user-response.dto';
+import { UsersService } from './users.services';
 
 @ApiTags('User')
 @Controller('users')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+export class UsersController {
+  constructor(private readonly userService: UsersService) {}
 
   @ApiOperation({ summary: 'List users' })
   @Get()

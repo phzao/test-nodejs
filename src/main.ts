@@ -2,9 +2,9 @@ import * as dotenv from 'dotenv';
 import { urlencoded, json } from 'express';
 import helmet from 'helmet';
 import { NestFactory } from '@nestjs/core';
-import { setupSwagger } from '@infrastructure/swagger';
-import { AppModule } from '@app/app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { setupSwagger } from '@infrastructure/swagger';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   dotenv.config();

@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { jwtConfig } from '@common/jwt.config';
+import { AuthController } from '@application/auth/auth.controller';
+import { UsersModule } from '@application/users/users.module';
+
 import { JwtStrategy } from './jwt.strategy';
 import { AuthService } from './auth.service';
-import { AuthController } from '@application/auth/auth.controller';
-import { UserModule } from '@application/users';
 
 @Module({
   imports: [
-    UserModule,
+    UsersModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: 'mysecretkey123',

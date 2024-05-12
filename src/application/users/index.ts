@@ -1,5 +1,4 @@
-import { UserModule } from './user.module';
-
+import { UsersModule} from './users.module'
 export {
-  UserModule
+  UsersModule
 }

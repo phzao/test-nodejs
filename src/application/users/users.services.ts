@@ -5,10 +5,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDocument } from './entities/user.entity';
-import { IUserEntityService } from './interfaces/user-service.interface';
+import { IUsersService } from './interfaces/users-service.interface';
 
 @Injectable()
-export class UserService implements IUserEntityService {
+export class UsersService implements IUsersService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<UserDocument>,
   ) {}

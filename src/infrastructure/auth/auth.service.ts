@@ -6,13 +6,13 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from '@application/auth/dto/login.dto';
-import { UserService } from '@application/users/user.services';
+import { UsersService } from '@application/users/users.services';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly userService: UserService,
+    private readonly userService: UsersService,
   ) {}
 
   async login(loginDto: LoginDto): Promise<any> {
