@@ -37,6 +37,6 @@ export class UserService implements IUserEntityService {
   }
 
   async findByUsername(username: string): Promise<UserDocument | null> {
-    return this.userModel.findOne({ username }).exec();
+    return this.userModel.findOne({ username }).select('+password').exec();
   }
 }

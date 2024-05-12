@@ -1,5 +1,9 @@
 import * as bcrypt from 'bcrypt';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from '@application/auth/dto/login.dto';
 import { UserService } from '@application/users/user.services';
@@ -11,8 +15,12 @@ export class AuthService {
     private readonly userService: UserService,
   ) {}
 
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<any> {
     const { username, password } = loginDto;
+    if (!username || !password)
+      throw new NotFoundException(
+        'Username and password are required!',
+      );
 
     const user = await this.userService.findByUsername(username);
 

@@ -9,7 +9,12 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+    try {
+      return this.authService.login(loginDto);
+    } catch (e) {
+      console.log('er', e);
+      return e;
+    }
   }
 
   @Post('public')
