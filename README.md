@@ -43,7 +43,9 @@ http://localhost:3000/api#/
 ## Status do projeto
 
 - Incompleto
+
 O que falta:
+
   - Revisar todos os endpoints incluindo no postman e no swagger
   - Aplicar o repository patterns p/ consulta, removendo o acesso direto no nos services
   - Criar testes e2e para o restante de endpoints
