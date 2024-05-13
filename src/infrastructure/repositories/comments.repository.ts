@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Comment, CommentDocument } from '@domain/comments/comment.entity';
 
 @Injectable()
-export class CommentRepository {
+export class CommentsRepository {
   constructor(
     @InjectModel(Comment.name)
     private readonly commentModel: Model<CommentDocument>,

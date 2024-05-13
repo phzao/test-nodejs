@@ -9,6 +9,7 @@ import { Comment, CommentDocument } from '@domain/comments/comment.entity';
 import { PostsService } from '@application/posts/posts.service';
 import { UsersService } from '@application/users/users.services';
 import { CommentDto } from './dto/comment.dto';
+import { CommentsRepository } from '@infrastructure/repositories/comments.repository';
 
 @Injectable()
 export class CommentsService {
@@ -16,6 +17,7 @@ export class CommentsService {
     @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
     private postsService: PostsService,
     private usersService: UsersService,
+    private commentsRepository: CommentsRepository,
   ) {}
 
   async create(
@@ -40,7 +42,7 @@ export class CommentsService {
   }
 
   async findOne(id: string): Promise<Comment> {
-    const comment = await this.commentModel.findById(id).exec();
+    const comment = await this.commentsRepository.findById(id);
     if (!comment) {
       throw new NotFoundException('Comment not found');
     }

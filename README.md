@@ -1,18 +1,49 @@
 # NodeJs Test 
 
-This is a project built with NestJS, MongoDB, and Jest for testing.
+O que foi utilizado no projeto NestJS, MongoDB e Jest.
 
-## Technologies Used
+## Instalação
 
-- **NestJS**: A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
-- **MongoDB**: A NoSQL database for storing application data.
-- **Jest**: A JavaScript testing framework for unit and integration tests.
+Clone o projeto
+```
+$ git clone https://github.com/phzao/test-nodejs
+```
 
-## Installation
+Instale os pacotes
+```
+$ cd test-nodejs
+$ npm i
+```
 
-To run this project, you need to have Node.js and MongoDB installed on your machine.
+Rodar
+```
+$ npm run start:dev 
+```
+Abra o postman ou alguma ferramenta de sua escolha na url
 
-1. Clone the repository:
+```
+http://localhost:3000
+```
 
-```bash
-git clone <repository-url>
+## Tests
+
+Para rodar os testes
+```
+$ npm run test 
+```
+Obs.: Os testes estão configurados p/ criar um db temporario, utiliza-lo e descartar o db.
+Apenas o teste de inclusão e2e esta pronto e funcionando
+## Documentacao
+
+Caso esteja executando localmente, acesse:
+```
+http://localhost:3000/api#/
+```
+
+## Status do projeto
+
+# Incompleto
+O que falta:
+# Revisar todos os endpoints incluindo no postman e no swagger
+# Aplicar o repository patterns p/ consulta, removendo o acesso direto no nos services
+# Criar testes e2e para o restante de endpoints
