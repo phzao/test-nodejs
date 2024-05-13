@@ -4,13 +4,15 @@ import { AuthModule } from '@infrastructure/auth/auth.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from '@application/users';
 
 @Module({
   imports: [
-    AuthModule,
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      isGlobal: true,
     }),
+    AuthModule,
+    UsersModule,
   ],
   providers: [AppService],
   controllers: [AppController],

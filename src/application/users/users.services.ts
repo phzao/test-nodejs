@@ -23,7 +23,8 @@ export class UsersService implements IUsersService {
 
   async create(createUserDto: CreateUserDto): Promise<UserDocument> {
     const user = new this.userModel(createUserDto);
-    user.password = await bcrypt.hash(createUserDto.password, 10);
+    const salt = 10;
+    user.password = await bcrypt.hash(createUserDto.password, salt);
 
     return user.save();
   }

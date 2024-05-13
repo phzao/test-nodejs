@@ -7,7 +7,7 @@ import { setupSwagger } from '@infrastructure/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  dotenv.config();
+  dotenv.config({ path: '.env' });
 
   const app = await NestFactory.create(AppModule);
   app.use(json({ limit: '30mb' }));
