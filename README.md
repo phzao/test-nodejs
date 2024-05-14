@@ -1,6 +1,6 @@
 # NodeJs Test 
 
-O que foi utilizado no projeto NestJS, MongoDB e Jest.
+O que foi utilizado no projeto NestJS, Docker, MongoDB e Jest.
 
 ## Instalação
 
@@ -15,8 +15,14 @@ $ cd test-nodejs
 $ npm i
 ```
 
+Inicie o docker
+```
+$ docker-compose up 
+```
+
 Rodar
 ```
+
 $ npm run start:dev 
 ```
 Abra o postman ou alguma ferramenta de sua escolha na url
