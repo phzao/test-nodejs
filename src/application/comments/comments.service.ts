@@ -1,50 +1,47 @@
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
 import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Comment, CommentDocument } from '@domain/comments/comment.entity';
-import { PostsService } from '@application/posts/posts.service';
-import { UsersService } from '@application/users/users.services';
+import { CommentsRepository } from '@infrastructure/repositories/comments/comments.repository';
 import { CommentDto } from './dto/comment.dto';
-import { CommentsRepository } from '@infrastructure/repositories/comments.repository';
+import { CommentDocument } from './entities/comments.entity';
 
 @Injectable()
 export class CommentsService {
-  constructor(
-    @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
-    private postsService: PostsService,
-    private usersService: UsersService,
-    private commentsRepository: CommentsRepository,
-  ) {}
+  constructor(private commentsRepository: CommentsRepository) {}
 
   async create(
     commentDto: CommentDto,
     userId: string,
     postId: string,
-  ): Promise<Comment> {
-    const post: any = await this.postsService.findOne(postId);
-    if (!post) {
-      throw new NotFoundException('Post not found');
-    }
-    const comment = new this.commentModel({ ...commentDto, userId, postId });
-    await comment.save();
+  ): Promise<CommentDocument> {
+    const comment: CommentDocument = await this.commentsRepository.create({
+      ...commentDto,
+      userId,
+      postId,
+    });
 
-    const postOwner: any = await this.usersService.findById(post.userId);
-    if (postOwner.email) {
-    }
-
-    post.comments.push(comment._id);
-    await post.save();
     return comment;
   }
 
-  async findOne(id: string): Promise<Comment> {
+  async findOne(id: string): Promise<CommentDocument> {
     const comment = await this.commentsRepository.findById(id);
     if (!comment) {
       throw new NotFoundException('Comment not found');
+    }
+    return comment;
+  }
+  async findOneIfIsOwner(
+    id: string,
+    userId: string,
+  ): Promise<CommentDocument | null> {
+    const comment: any = await this.commentsRepository.findById(id);
+    if (!comment) throw new NotFoundException('Comment not found');
+    if (comment.userId.toString() !== userId) {
+      throw new UnauthorizedException(
+        'You are not allowed to update this comment',
+      );
     }
     return comment;
   }
@@ -53,38 +50,18 @@ export class CommentsService {
     id: string,
     commentDto: CommentDto,
     userId: string,
-  ): Promise<Comment> {
-    const comment: any = await this.findOne(id);
+  ): Promise<CommentDocument | null> {
+    const comment: any = await this.commentsRepository.findById(id);
+    if (!comment) throw new NotFoundException('Comment not found');
     if (comment.userId.toString() !== userId) {
       throw new UnauthorizedException(
         'You are not allowed to update this comment',
       );
     }
-    comment.set(commentDto);
-    return comment.save();
+    return await this.commentsRepository.update(id, commentDto);
   }
 
-  async remove(id: string, userId: string): Promise<void> {
-    const comment: any = await this.findOne(id);
-    const post: any = await this.postsService.findOne(comment.postId);
-    if (
-      comment.userId.toString() !== userId &&
-      post.userId.toString() !== userId
-    ) {
-      throw new UnauthorizedException(
-        'You are not allowed to delete this comment',
-      );
-    }
-    comment.deleted = true;
-    await comment.save();
-  }
-
-  async getCommentsByPostId(postId: string) {
-    try {
-      const comments = await this.commentModel.find({ post_id: postId }).exec();
-      return comments;
-    } catch (error) {
-      throw new Error(`Failed to fetch comments for post ${postId}: ${error}`);
-    }
+  async remove(id: string): Promise<void> {
+    await this.commentsRepository.update(id, { deleted: true });
   }
 }

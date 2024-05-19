@@ -1,3 +1,5 @@
+import { IsString } from 'class-validator';
 export class CommentDto {
-  readonly description: string;
+  @IsString()
+  description: string;
 }

@@ -3,8 +3,8 @@ import { INestApplication } from '@nestjs/common';
 
 export function setupSwagger(app: INestApplication): void {
   const options = new DocumentBuilder()
-    .setTitle('API Status')
-    .setDescription('API to check the status')
+    .setTitle('API Post Control')
+    .setDescription('API to manager posts')
     .setVersion('1.0')
     .addTag('status')
     .build();

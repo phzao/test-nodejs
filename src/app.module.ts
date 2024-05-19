@@ -2,13 +2,14 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { JwtModule } from '@nestjs/jwt';
 
+import { PostsModule } from '@application/posts/posts.module';
 import { AuthModule } from '@infrastructure/auth/auth.module';
 import { AuthGuard } from '@infrastructure/auth/auth.guard';
 import { UsersModule } from '@application/users';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { JwtModule } from '@nestjs/jwt';
       useFactory: (configService: ConfigService) => {
         return {
           secret: configService.get<string>('TOKEN_SECRET'),
-          signOptions: { expiresIn: '24h' },
+          signOptions: { expiresIn: '60m' },
         };
       },
       inject: [ConfigService],
@@ -32,6 +33,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     AuthModule,
     UsersModule,
+    PostsModule,
   ],
   providers: [
     AppService,

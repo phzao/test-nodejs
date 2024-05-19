@@ -1,10 +1,18 @@
 import { Document, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { CommentEntity } from '@domain/comments/comments.entity';
 
 export type CommentDocument = Comment & Document;
 
-@Schema()
-export class Comment {
+@Schema({
+  toObject: {
+    versionKey: false,
+  },
+  toJSON: {
+    versionKey: false,
+  },
+})
+export class Comment implements CommentEntity {
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   userId: Types.ObjectId;
 

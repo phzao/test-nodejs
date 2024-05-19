@@ -16,7 +16,8 @@
       "@common/*": ["./src/common/*"],
       "@application/*": ["./src/application/*"],
       "@app/*": ["./src/app/*"],
-      "@infrastructure/*": ["./src/infrastructure/*"]
+      "@infrastructure/*": ["./src/infrastructure/*"],
+      "@resources/*": ["./src/resources/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
