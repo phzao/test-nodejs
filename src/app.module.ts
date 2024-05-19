@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from '@infrastructure/auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 
+import { AuthModule } from '@infrastructure/auth/auth.module';
+import { AuthGuard } from '@infrastructure/auth/auth.guard';
+import { UsersModule } from '@application/users';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from '@application/users';
-import { MongooseModule } from '@nestjs/mongoose';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -17,10 +20,26 @@ import { MongooseModule } from '@nestjs/mongoose';
         ? process.env.MONGO_CONNECTION_TEST
         : process.env.MONGO_CONNECTION,
     ),
+    JwtModule.registerAsync({
+      useFactory: (configService: ConfigService) => {
+        return {
+          secret: configService.get<string>('TOKEN_SECRET'),
+          signOptions: { expiresIn: '24h' },
+        };
+      },
+      inject: [ConfigService],
+      global: true,
+    }),
     AuthModule,
     UsersModule,
   ],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
   controllers: [AppController],
 })
 export class AppModule {}

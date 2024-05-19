@@ -15,28 +15,33 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserDocument } from './entities/user.entity';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UsersService } from './users.services';
+const USERS_V1 = 'v1/users';
 
-@ApiTags('User')
-@Controller('users')
+@Controller('')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
+  @ApiTags(USERS_V1)
   @ApiOperation({ summary: 'List users' })
-  @Get()
+  @Get(USERS_V1)
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 200, type: [UserDto] })
   async findAll(): Promise<UserDocument[]> {
     return this.userService.findAll();
   }
 
-  @ApiOperation({ summary: 'List user by id' })
-  @Get(':id')
+  @ApiTags(USERS_V1)
+  @ApiOperation({ summary: 'Show details from a specif user' })
+  @Get(`${USERS_V1}/:id`)
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 200, type: UserDto })
   async findById(@Param('id') id: string): Promise<UserDocument | null> {
     return this.userService.findById(id);
   }
 
-  @Post()
+  @ApiTags(USERS_V1)
+  @Post(USERS_V1)
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 201, type: UserResponseDto })
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
     return this.userService.create(createUserDto).then((user) => {
@@ -46,7 +51,10 @@ export class UsersController {
     });
   }
 
-  @Put(':id')
+  @ApiTags(USERS_V1)
+  @ApiOperation({ summary: 'Update user by id' })
+  @Put(`${USERS_V1}/:id`)
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 200, type: UserDto })
   async update(
     @Param('id') id: string,
@@ -55,7 +63,9 @@ export class UsersController {
     return this.userService.update(id, updateUserDto);
   }
 
-  @Delete(':id')
+  @ApiTags(USERS_V1)
+  @ApiOperation({ summary: 'Remove user by id' })
+  @Delete(`${USERS_V1}/:id`)
   @ApiResponse({ status: 200, type: UserDto })
   async delete(@Param('id') id: string): Promise<UserDocument | null> {
     return this.userService.delete(id);

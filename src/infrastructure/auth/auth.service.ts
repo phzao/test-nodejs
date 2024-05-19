@@ -15,17 +15,15 @@ export class AuthService {
     private readonly userService: UsersService,
   ) {}
 
-  async login(loginDto: LoginDto): Promise<any> {
+  async loginOrFail(loginDto: LoginDto): Promise<any> {
     const { username, password } = loginDto;
     if (!username || !password)
-      throw new NotFoundException(
-        'Username and password are required!',
-      );
+      throw new NotFoundException('Username and password are required!');
 
     const user = await this.userService.findByUsername(username);
 
     if (!user) {
-      throw new UnauthorizedException('Invalid username or password');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
@@ -38,5 +36,13 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async signPayload(payload: any): Promise<string> {
+    return this.jwtService.sign(payload);
+  }
+
+  async validateUser(payload: any): Promise<any> {
+    return { userId: payload.sub, username: payload.username };
   }
 }
