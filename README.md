@@ -2,6 +2,13 @@
 
 O que foi utilizado no projeto NestJS, Docker, MongoDB e Jest.
 
+## O Projeto
+
+Um gerenciador de Posts com controle de usuário e comentários, com algumas regras como:
+- Somente o dono do post pode alterar
+- Somente o dono do comentario ou o dono do post pode remover um comentario
+- Somente usuário autenticado acessa as funcionalidades
+
 ## Instalação
 
 Clone o projeto
