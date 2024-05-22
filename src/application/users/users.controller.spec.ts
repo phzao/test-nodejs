@@ -5,9 +5,12 @@ import { INestApplication } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppModule } from '../../app.module';
 import { UserSchema } from './entities/user.entity';
+import { IUsersService } from './interfaces/users-service.interface';
+import { UsersService } from './users.services';
 
 describe('UsersController', () => {
   let app: INestApplication;
+  let userService: IUsersService;
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
@@ -28,9 +31,9 @@ describe('UsersController', () => {
     await app.close();
   });
 
-  it('/users (POST)', async () => {
+  it('/v1/users (POST)', async () => {
     return request(app.getHttpServer())
-      .post('/users')
+      .post('/v1/users')
       .send({
         name: 'John Doe',
         username: 'john',

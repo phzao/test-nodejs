@@ -31,6 +31,7 @@ import {
   USER_DELETE,
 } from './swagger/swagger.description';
 import { UserEditDto } from './dto/user-edit.dto';
+import { Public } from '@resources/guard/roles.decorator';
 const USERS_V1 = 'v1/users';
 
 @ApiTags('Users')
@@ -53,6 +54,7 @@ export class UsersController {
     return this.userService.findById(id);
   }
 
+  @Public()
   @ApiOperation({ summary: 'Add a new user' })
   @Post(USERS_V1)
   @ApiBody(USERS_ADD)
