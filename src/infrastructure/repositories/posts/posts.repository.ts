@@ -5,6 +5,7 @@ import { Post, PostDocument } from '@application/posts/entities/post.entity';
 import { CreatePostDto } from '@application/posts/dto/create-post.dto';
 import { IPostRepository } from './interfaces/post-repository.interface';
 import { PostWithReportDto } from './interfaces/post-report.interface';
+import { IReportPosts } from './interfaces/report-post.interface';
 
 @Injectable()
 export class PostRepository implements IPostRepository {
@@ -125,6 +126,19 @@ export class PostRepository implements IPostRepository {
           views: 1,
           likes: 1,
           dislikes: 1,
+        },
+      },
+    ]);
+  }
+
+  async findAllToReport(): Promise<IReportPosts[]> {
+    return this.postModel.aggregate([
+      {
+        $project: {
+          title: 1,
+          likes: 1,
+          unlikes: 1,
+          totalComments: { $size: '$comments' },
         },
       },
     ]);

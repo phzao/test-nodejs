@@ -13,6 +13,7 @@ import { PostDocument } from './entities/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { RemoveCommentDto } from './dto/remove-comment.dto';
+import { IReportPosts } from '@infrastructure/repositories/posts/interfaces/report-post.interface';
 
 @Injectable()
 export class PostsService {
@@ -135,5 +136,9 @@ export class PostsService {
         params.userId,
       );
     await this.commentsService.remove(comment._id);
+  }
+
+  async reportPosts(): Promise<IReportPosts[]> {
+    return this.postsRepository.findAllToReport();
   }
 }

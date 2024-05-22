@@ -3,9 +3,7 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '@application/users/entities/user.entity';
-import { CreateUserDto } from '@application/users/dto/create-user.dto';
-import { UserEditDto } from '@application/users/dto/user-edit.dto';
-import { UserParamsFind } from '@application/users/dto/user-params.dto';
+import { UserParamsFind, UserEditDto, CreateUserDto } from '@application/users';
 import { IUsersRepository } from './interfaces/user-repository.interface';
 
 @Injectable()
@@ -49,6 +47,9 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async findByUsername(username: string): Promise<UserDocument | null> {
-    return await this.userModel.findOne({ username }).select('+password').exec();
+    return await this.userModel
+      .findOne({ username })
+      .select('+password')
+      .exec();
   }
 }

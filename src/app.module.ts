@@ -10,6 +10,7 @@ import { AuthGuard } from '@infrastructure/auth/auth.guard';
 import { UsersModule } from '@application/users';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CommentsModule } from '@application/comments/comments.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AppService } from './app.service';
     AuthModule,
     UsersModule,
     PostsModule,
+    CommentsModule,
   ],
   providers: [
     AppService,

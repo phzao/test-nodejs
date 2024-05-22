@@ -1,6 +1,7 @@
 import { PostDocument } from '@application/posts/entities/post.entity';
 import { CreatePostDto } from '@application/posts/dto/create-post.dto';
 import { PostWithReportDto } from './post-report.interface';
+import { IReportPosts } from './report-post.interface';
 
 export interface IPostRepository {
   findAll(): Promise<PostDocument[]>;
@@ -14,4 +15,5 @@ export interface IPostRepository {
   findAllWithReport(): Promise<PostWithReportDto[]>;
   addComment(postId: string, commentId: string): Promise<PostDocument | null>;
   viewIncremment(postId: string): Promise<PostDocument>;
+  findAllToReport(): Promise<IReportPosts[]>;
 }
