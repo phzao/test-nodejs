@@ -15,6 +15,12 @@ $ cd test-nodejs
 $ npm i
 ```
 
+Crie ou copie uma .env na raiz do projeto
+```
+
+$ cp .env.template .env 
+```
+
 Inicie o docker
 ```
 $ docker-compose up 
